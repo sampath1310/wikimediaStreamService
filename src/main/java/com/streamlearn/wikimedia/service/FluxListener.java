@@ -72,4 +72,43 @@ public class FluxListener {
                 () -> log.info("Closed"));
     }
 
+    public void recentChangeListenerAsynchronous(){
+        Flux<String> responseStream = prepareFluxStream();
+        responseStream.subscribe(response -> {
+
+                    RecentChange responseRecentChange = generateRecentChangeEntity(response);
+
+                        producerConfig.publishRecentChangeAsynchronous(responseRecentChange);
+
+                },
+                error -> log.error("error occurred"+ error),
+                () -> log.info("Closed"));
+    }
+    public void recentChangeListenerAsynchronousStopOnError(){
+        Flux<String> responseStream = prepareFluxStream();
+        responseStream.subscribe(response -> {
+
+                    RecentChange responseRecentChange = generateRecentChangeEntity(response);
+
+                    producerConfig.publishRecentChangeAsynchronousStopOnError(responseRecentChange);
+
+                },
+                error -> log.error("error occurred"+ error),
+                () -> log.info("Closed"));
+    }
+
+    public void recentChangeListenerAsynchronousDeadLetterQueue() {
+        Flux<String> responseStream = prepareFluxStream();
+        responseStream.subscribe(response -> {
+
+                    RecentChange responseRecentChange = generateRecentChangeEntity(response);
+
+                    producerConfig.publishRecentChangeAsynchronousDeadLetterQueue(responseRecentChange);
+
+                },
+                error -> log.error("error occurred"+ error),
+                () -> log.info("Closed"));
+    }
+
 }
+
