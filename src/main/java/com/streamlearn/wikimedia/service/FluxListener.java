@@ -24,7 +24,6 @@ public class FluxListener {
     private final WebClient webClient;
 
     private static final ObjectMapper objectMapper = new ObjectMapper();
-    @Autowired
     public FluxListener( WebClient.Builder webClientBuilder){
         this.webClient = webClientBuilder.baseUrl("https://stream.wikimedia.org/v2").build();
     }

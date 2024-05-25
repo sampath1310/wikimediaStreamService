@@ -1,7 +1,6 @@
 package com.streamlearn.wikimedia.controller;
 
 import com.streamlearn.wikimedia.service.FluxListener;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.scheduling.annotation.Async;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -12,7 +11,6 @@ public class FluxController{
 
     private final FluxListener fluxListener;
 
-    @Autowired
     public FluxController(FluxListener fluxListener){
         this.fluxListener =fluxListener;
     }

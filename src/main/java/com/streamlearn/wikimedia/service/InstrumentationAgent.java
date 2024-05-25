@@ -1,7 +1,11 @@
 package com.streamlearn.wikimedia.service;
 
+import org.springframework.context.annotation.Configuration;
+
 import java.lang.instrument.Instrumentation;
 
+
+@Configuration
 public class InstrumentationAgent {
     private static  Instrumentation globalInstrumentation;
 
