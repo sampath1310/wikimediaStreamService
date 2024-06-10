@@ -1,1 +1,1 @@
-This project 
+This project demonstrate techniques for publishing the data to kafka 

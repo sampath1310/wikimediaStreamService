@@ -1,10 +1,10 @@
-package com.streamlearn.wikimedia.service;
+package com.streamlearn.wikimedia.producer.service;
 
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.streamlearn.wikimedia.config.ProducerConfig;
-import com.streamlearn.wikimedia.model.RecentChange;
+import com.streamlearn.wikimedia.producer.config.ProducerConfig;
+import com.streamlearn.wikimedia.producer.model.RecentChange;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
@@ -54,6 +54,7 @@ public class FluxListener {
                         RecentChange responseRecentChange = generateRecentChangeEntity(response);
                         producerConfig.publishRecentChangeFireAndForget(responseRecentChange);
                     } catch (JsonProcessingException e) {
+                        log.error("Failing at recentChangeListenerFireAndForget");
                         log.error(response);
                     }
                 },

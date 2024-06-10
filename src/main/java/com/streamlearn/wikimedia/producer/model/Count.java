@@ -1,7 +1,6 @@
-package com.streamlearn.wikimedia.model;
+package com.streamlearn.wikimedia.producer.model;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
-import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.extern.slf4j.Slf4j;
@@ -10,8 +9,8 @@ import lombok.extern.slf4j.Slf4j;
 @Setter
 @Slf4j
 @JsonIgnoreProperties
-public class Revision{
-    public int old;
-    @JsonProperty("new")
-    public int mynew;
+public class Count {
+    public Long recent_change_id;
+    public int revisions;
+    public int files;
 }

@@ -1,6 +1,6 @@
-package com.streamlearn.wikimedia.controller;
+package com.streamlearn.wikimedia.producer.controller;
 
-import com.streamlearn.wikimedia.service.FluxListener;
+import com.streamlearn.wikimedia.producer.service.FluxListener;
 import org.springframework.scheduling.annotation.Async;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RestController;

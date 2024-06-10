@@ -1,4 +1,4 @@
-package com.streamlearn.wikimedia.aop;
+package com.streamlearn.wikimedia.producer.aop;
 
 import java.lang.annotation.ElementType;
 import java.lang.annotation.Retention;

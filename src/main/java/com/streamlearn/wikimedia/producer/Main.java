@@ -1,4 +1,4 @@
-package com.streamlearn.wikimedia;
+package com.streamlearn.wikimedia.producer;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;

@@ -1,8 +1,11 @@
-package com.streamlearn.wikimedia.config;
+package com.streamlearn.wikimedia.producer.config;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.streamlearn.wikimedia.model.RecentChange;
+import com.streamlearn.wikimedia.producer.model.Length;
+import com.streamlearn.wikimedia.producer.model.Meta;
+import com.streamlearn.wikimedia.producer.model.RecentChange;
+import com.streamlearn.wikimedia.producer.model.Revision;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.kafka.clients.producer.RecordMetadata;
 import org.springframework.kafka.core.KafkaTemplate;
@@ -11,12 +14,12 @@ import org.springframework.scheduling.annotation.Async;
 import org.springframework.stereotype.Component;
 
 import java.nio.charset.StandardCharsets;
+import java.util.HashMap;
 import java.util.Map;
 import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.ExecutionException;
 
-import static com.streamlearn.wikimedia.utils.Constant.ERROR_TOPIC;
-import static com.streamlearn.wikimedia.utils.Constant.RECENT_CHANGE_TOPIC;
+import static com.streamlearn.wikimedia.producer.utils.Constant.*;
 
 @Component
 @Slf4j
@@ -32,11 +35,47 @@ public class ProducerConfig{
 
     public Map<String, Object> getKafkaTemplate(){return this.kafkaTemplate.getProducerFactory().getConfigurationProperties();}
 
-    public void publishRecentChangeFireAndForget(RecentChange recentChange) throws JsonProcessingException {
-        String jsonValue = objectMapper.writeValueAsString(recentChange);
-        int length = jsonValue.getBytes(StandardCharsets.UTF_8).length;
+    public Map<String, String> objectSeperator(RecentChange recentChange) throws JsonProcessingException {
+
+        Map<String, String> objectHolder = new HashMap<>();
+
+        processObject(recentChange.length,"length",recentChange.id,objectHolder);
+        processObject(recentChange.meta,"meta",recentChange.id,objectHolder);
+        processObject(recentChange.revision,"revision",recentChange.id,objectHolder);
+        String recent_change = objectMapper.writeValueAsString(recentChange);
+        objectHolder.put("recent_change", objectMapper.writeValueAsString(recent_change));
+
+        int length = recent_change.getBytes(StandardCharsets.UTF_8).length;
         log.info("Recent Change with id: "+recentChange.id+ "with size "+ length/125);
-        kafkaTemplate.send(RECENT_CHANGE_TOPIC,jsonValue);
+        return  objectHolder;
+    }
+
+    private <T> void processObject(T object,String key,Object id,Map map) throws JsonProcessingException {
+        if(id!=null){
+            if(object instanceof Length length){
+                ((Length)object).recent_change_id = (Long) id;
+                map.put(key,objectMapper.writeValueAsString((Length)object));
+            }else if(object instanceof Meta meta){
+                ((Meta)object).recent_change_id = (Long) id;
+                map.put(key,objectMapper.writeValueAsString(object));
+            }else if(object instanceof Revision revision){
+                ((Revision)object).recent_change_id = (Long) id;
+                map.put(key,objectMapper.writeValueAsString(object));
+
+            }
+        }
+    }
+    public void publishRecentChangeFireAndForget(RecentChange recentChange) throws JsonProcessingException {
+        Map<String, String> publishObject = objectSeperator(recentChange);
+        if(recentChange.length != null) {
+            kafkaTemplate.send(RECENT_CHANGE_LENGTH, publishObject.get("length"));
+        }
+        if(recentChange.meta!=null){
+        kafkaTemplate.send(RECENT_CHANGE_META, publishObject.get("meta"));}
+        if(recentChange.revision!=null){
+        kafkaTemplate.send(RECENT_CHANGE_REVISION, publishObject.get("revision"));}
+        kafkaTemplate.send(RECENT_CHANGE_TOPIC, publishObject.get("recent_change"));
+
     }
 
     @Async

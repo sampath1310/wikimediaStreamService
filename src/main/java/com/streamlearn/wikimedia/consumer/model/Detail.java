@@ -1,4 +1,4 @@
-package com.streamlearn.wikimedia.model;
+package com.streamlearn.wikimedia.consumer.model;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import lombok.AllArgsConstructor;
@@ -12,6 +12,7 @@ import lombok.Setter;
 @Setter
 @JsonIgnoreProperties
 public class Detail {
+    public Long recent_change_id;
     public String type;
     public String level;
     public String expiry;

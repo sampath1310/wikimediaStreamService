@@ -1,4 +1,4 @@
-package com.streamlearn.wikimedia.model;
+package com.streamlearn.wikimedia.consumer.model;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import lombok.AllArgsConstructor;
@@ -16,7 +16,8 @@ import lombok.extern.slf4j.Slf4j;
 public class RecentChange {
     public String $schema;
     public Meta meta;
-    public long id;
+    public int id;
+    public Object dt;
     public String type;
     public int namespace;
     public String title;
@@ -28,13 +29,13 @@ public class RecentChange {
     public String notify_url;
     public boolean minor;
     public boolean patrolled;
-    public Length length;
-    public Revision revision;
-    public int log_id;
-    public String log_type;
-    public String log_action;
+    public Object length;
+    public Object revision;
+    public Object log_id;
+    public Object log_type;
+    public Object log_action;
     public Object log_params;
-    public String log_action_comment;
+    public Object log_action_comment;
     public String server_url;
     public String server_name;
     public String server_script_path;

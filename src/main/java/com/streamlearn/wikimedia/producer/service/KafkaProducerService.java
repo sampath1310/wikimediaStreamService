@@ -1,6 +1,6 @@
-package com.streamlearn.wikimedia.service;
+package com.streamlearn.wikimedia.producer.service;
 
-import com.streamlearn.wikimedia.config.ProducerConfig;
+import com.streamlearn.wikimedia.producer.config.ProducerConfig;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 

@@ -1,4 +1,4 @@
-package com.streamlearn.wikimedia.service;
+package com.streamlearn.wikimedia.producer.service;
 
 import org.springframework.context.annotation.Configuration;
 
